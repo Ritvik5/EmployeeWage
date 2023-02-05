@@ -11,7 +11,8 @@ totalWorkingDays=0;
 
 
 function getWorkingHours() {
-	case $1 in
+	local $empCheck=$1
+	case $empCheck in
 	$isFullTime)
 	workHours=8
 	;;
@@ -21,16 +22,22 @@ function getWorkingHours() {
 	*)
 	workHours=0;
 esac
-	echo $workHours
+	echo $empHours
 }
 
-while [[ $totalworkHours -lt $maxHrsInMonth && $totalWorkingDays -lt $numWorkingDays ]]
+function getEmpWage() {
+	local $empHr=$1
+	echo $(($empHours*$empRatePerHr))
+
+while [[ $totalEmpHrs -lt $maxHrsInMonth && $totalWorkingDays -lt $numWorkingDays ]]
 do
-	((totalWorkingDays++));
-	workingHours="$( getWorkingHours $((RANDOM%3)) )";
-	totalworkHours=$(($totalworkHours + $workHours));
+	((totalWorkingDays++))
+	empCheck=$((RANDOM%3))
+	empHours="$( getWorkingHours $empCheck )"
+	totalworkHours=$(($totalworkHours + $workHours))
+	dailyWage[$totalWorkingDays]="$( getEmpWage $empHours )"
 done
 
 
-totalSalary=$(($totaworkHours * $empRatePerHr));
-
+totalSalary=$(($totalworkHours * $empRatePerHr))
+echo "Daily wage is" ${dailWage[@]}
