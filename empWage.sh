@@ -9,6 +9,7 @@ numWorkingDays=20;
 totalEmpHrs=0;
 totalWorkingDays=0;
 
+declare -A dailWage;
 
 function getWorkingHours() {
 	local $empCheck=$1
@@ -35,9 +36,10 @@ do
 	empCheck=$((RANDOM%3))
 	empHours="$( getWorkingHours $empCheck )"
 	totalworkHours=$(($totalworkHours + $workHours))
-	dailyWage[$totalWorkingDays]="$( getEmpWage $empHours )"
+	dailyWage["Day" $totalWorkingDays]="$( getEmpWage $empHours )"
 done
 
 
 totalSalary=$(($totalworkHours * $empRatePerHr))
 echo "Daily wage is" ${dailWage[@]}
+echo ${!dailyWage[a]}
